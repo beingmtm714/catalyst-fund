@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Michael T. Martin — Background for the Rural Tech Catalyst Fund</title>
+<meta name="description" content="Operator and fund builder. Background and track record prepared for Louisiana's Rural Tech Catalyst Fund.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --c0:#01233D; --navy:#0E2E47; --blue:#00B9FF; --white:#FFFFFF;
+  --gray:#DBDFE2; --gray2:#9fb2c0; --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.16);
+  --mw:920px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Inter",system-ui,sans-serif;background:var(--c0);color:var(--white);
+  line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(1100px 700px at 82% -10%, rgba(0,185,255,.14), transparent 60%),
+    linear-gradient(180deg, rgba(1,35,61,.2), var(--c0) 60%)}
+.wrap{max-width:var(--mw);margin:0 auto;padding:0 clamp(20px,5vw,40px);position:relative;z-index:2}
+
+/* header */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:linear-gradient(180deg, rgba(1,35,61,.85), rgba(1,35,61,.4));border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:14px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{height:22px;width:auto;display:block}
+.brand .div{width:1px;height:20px;background:var(--line2)}
+.brand .sub{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray2);font-weight:600}
+.back{font-size:.82rem;font-weight:700;letter-spacing:.02em;border:1px solid var(--line2);color:var(--white);
+  padding:8px 15px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:.2s}
+.back:hover{border-color:var(--blue);color:var(--blue)}
+@media(max-width:560px){.brand .sub{display:none}}
+
+/* name block */
+.head{padding:clamp(40px,8vh,72px) 0 30px}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.74rem;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 18px}
+.eyebrow::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,var(--blue),transparent)}
+h1{font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.02;font-weight:800;letter-spacing:-.025em;margin:0 0 14px}
+.tagline{font-size:clamp(1.02rem,1.5vw,1.18rem);color:var(--gray);max-width:62ch;margin:0 0 22px;font-weight:400}
+.tagline b{color:var(--white);font-weight:600}
+.contact{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.86rem;color:var(--gray2)}
+.contact a{color:var(--gray2);text-decoration:none;border-bottom:1px solid transparent;transition:.2s}
+.contact a:hover{color:var(--blue);border-color:var(--blue)}
+.actions{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:.9rem;padding:12px 20px;
+  border-radius:999px;text-decoration:none;transition:.2s;cursor:pointer;border:1px solid transparent;font-family:inherit}
+.btn.solid{background:var(--blue);color:var(--c0)}
+.btn.solid:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,185,255,.3)}
+.btn.ghost{border-color:var(--line2);color:var(--white);background:none}
+.btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+/* sections */
+section{padding:30px 0;border-top:1px solid var(--line)}
+.s-label{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 18px}
+
+/* competencies */
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chips span{font-size:.83rem;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);
+  background:rgba(10,34,54,.5);color:var(--gray)}
+
+/* profile callout */
+.profile{border:1px solid var(--line2);border-left:3px solid var(--blue);border-radius:14px;
+  padding:24px 26px;background:rgba(0,185,255,.05);font-size:1rem;color:var(--gray)}
+.profile b{color:var(--white);font-weight:600}
+
+/* experience */
+.role{padding:22px 0;border-bottom:1px solid var(--line)}
+.role:last-child{border-bottom:none}
+.company-group{margin-top:6px}
+.company-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:2px}
+.company-head .co{font-size:1.18rem;font-weight:800;letter-spacing:-.01em}
+.company-head .co-meta{font-size:.8rem;color:var(--gray2)}
+.role-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 3px}
+.role-head h3{margin:0;font-size:1.08rem;font-weight:700}
+.role-head h3 .at{color:var(--blue);font-weight:700}
+.role-head .dates{font-size:.8rem;color:var(--gray2);font-weight:600;white-space:nowrap}
+.role-meta{font-size:.84rem;color:var(--gray2);margin:0 0 10px}
+.role ul{margin:8px 0 0;padding-left:18px;color:var(--gray);font-size:.93rem}
+.role ul li{margin:6px 0}
+.role.sub{padding:16px 0 0;border-bottom:none}
+.role.sub .role-head h3{font-size:1rem}
+
+/* two-col footer sections */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,48px)}
+@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.cols ul{margin:0;padding-left:18px;color:var(--gray);font-size:.92rem}
+.cols ul li{margin:7px 0}
+.cols em{color:var(--gray2);font-style:normal}
+
+/* closing */
+.foot{padding:40px 0 60px;border-top:1px solid var(--line);text-align:center}
+.foot p{color:var(--gray2);font-size:.84rem;margin:0 0 18px}
+.foot .name{font-weight:800;color:var(--white)}
+
+@media print{
+  body{background:#fff;color:#111}
+  .veil,header,.actions{display:none}
+  a{color:#111}
+  .profile{background:#f4f8fb;border-color:#cfd9e0;border-left-color:#0a7;color:#222}
+  .chips span{border-color:#cfd9e0;color:#222}
+  .eyebrow,.s-label,.role-head h3 .at,.company-head .co{color:#0a5}
+  .tagline,.role ul,.cols ul,.profile{color:#222}
+  .contact,.role-meta,.dates,.co-meta{color:#555}
+  section,.role,.foot{border-color:#e2e8ee}
+}
+</style>
+</head>
+<body>
+<div class="veil"></div>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg viewBox="0 0 163 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="LA.IO">
+        <path d="M38.4833 11.7324V24.7142H46.7621V28.7743H33.9453V11.7324H38.4833Z" fill="white"/>
+        <path d="M62.6707 25.4743H57.6789L56.7713 28.7743H52.3672L57.5218 11.7324H63.0779L68.2326 28.7743H63.5841L62.6765 25.4743H62.6707ZM58.6389 22.0388H61.734L60.2388 16.6293H60.1341L58.6389 22.0388Z" fill="white"/>
+        <path d="M78.1328 23.582H83.2584V28.7735H78.1328V23.582Z" fill="white"/>
+        <path d="M94.6406 28.7743V24.7967H98.8353V15.71H94.6406V11.7324H107.568V15.71H103.373V24.7967H107.568V28.7743H94.6406Z" fill="white"/>
+        <path d="M121.511 29.0982C117.182 29.0982 113.953 25.4978 113.953 20.2532C113.953 15.0087 117.182 11.4082 121.511 11.4082C125.839 11.4082 129.068 15.0028 129.068 20.2532C129.068 25.5037 125.839 29.0982 121.511 29.0982ZM121.511 15.4683C119.695 15.4683 118.543 17.3599 118.543 20.2532C118.543 23.1466 119.69 25.0381 121.511 25.0381C123.332 25.0381 124.472 23.1466 124.472 20.2532C124.472 17.3599 123.326 15.4683 121.511 15.4683Z" fill="white"/>
+        <path d="M8.56976 20L24.0279 35.657L19.7459 40L0 20L19.7459 0L24.0279 4.33707L8.56976 20Z" fill="#00B9FF"/>
+        <path d="M154.433 20L138.969 4.33707L143.257 0L162.997 20L143.257 40L138.969 35.657L154.433 20Z" fill="#00B9FF"/>
+      </svg>
+      <span class="div"></span>
+      <span class="sub">Rural Tech Catalyst Fund</span>
+    </div>
+    <a class="back" href="../">← The model</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="head">
+    <p class="eyebrow">Background &amp; track record</p>
+    <h1>Michael T. Martin</h1>
+    <p class="tagline">Operator and fund builder with 16 years across economic development, venture capital, and early-stage program design. <b>Built investment and partnership programs from nothing four times.</b> Ready to stand up RTCF operations and deploy capital within the first program cycle.</p>
+    <div class="contact">
+      <a href="mailto:beingmichaelmartin@gmail.com">beingmichaelmartin@gmail.com</a>
+      <a href="https://linkedin.com/in/michaeltmartin" target="_blank" rel="noopener">linkedin.com/in/michaeltmartin</a>
+      <span>518.878.9406</span>
+      <span>New Orleans, LA</span>
+    </div>
+    <div class="actions">
+      <button class="btn solid" onclick="window.print()">Print / Save as PDF</button>
+      <a class="btn ghost" href="../">← Back to the model</a>
+    </div>
+  </div>
+
+  <section>
+    <p class="s-label">Core competencies</p>
+    <div class="chips">
+      <span>Fund design &amp; capital deployment</span>
+      <span>Health tech ecosystem development</span>
+      <span>Startup sourcing &amp; selection</span>
+      <span>Public-private partnership structuring</span>
+      <span>Economic development</span>
+      <span>Investor relations</span>
+      <span>Program architecture</span>
+      <span>Community &amp; stakeholder engagement</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="s-label">Executive profile</p>
+    <div class="profile">
+      Operator and fund builder with 16 years spanning economic development, venture capital, and early-stage technology program design. Has built investment and partnership programs from nothing four times, most recently founding an in-house accelerator that went from concept to deployed capital in under 90 days, <b>backed 28 companies, and generated $8M+ in follow-on investment</b>. Began career in New Orleans running the New Orleans Startup Fund investment pipeline and St. Claude Main Street, then spent a decade inside two leading venture firms (<b>SignalFire, $4B AUM; M13, $1B AUM</b>) and XPRIZE before returning to build and direct a full accelerator and ecosystem program at Ava Labs. Co-authored a 2019 New York Times op-ed on AI governance and public technology infrastructure. Direct experience with health tech companies at the portfolio level and with federal and state government stakeholders at the program level.
+    </div>
+  </section>
+
+  <section>
+    <p class="s-label">Experience</p>
+
+    <div class="role">
+      <div class="role-head"><h3>Founder <span class="at">@ Bastille Advisory</span></h3><span class="dates">2025 – Present</span></div>
+      <p class="role-meta">New Orleans, LA · Fractional growth and partnership advisory</p>
+      <ul>
+        <li>Advise AI and infrastructure founders on partner strategy, investor positioning, and the fundraising infrastructure needed to move from early capital to institutional rounds.</li>
+        <li>Built investor positioning, fundraising CRMs, and structured outreach cadences for 7+ early-stage founders; sourced investor introductions through a network of 5 partner funds and operators.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="company-head"><span class="co">Ava Labs</span><span class="co-meta">New York, NY · Blockchain infrastructure company · 2023 – 2026</span></div>
+
+      <div class="role sub">
+        <div class="role-head"><h3>Founder &amp; Program Director <span class="at">@ Codebase</span></h3><span class="dates">2023 – 2026</span></div>
+        <p class="role-meta">In-house early-stage accelerator</p>
+        <ul>
+          <li>Built the accelerator from zero: designed program structure, selection criteria, milestone framework, and investor engagement model with no staff and no prior internal template; reached operational deployment within the first 90 days.</li>
+          <li>Ran 4 cohorts across 28 companies; backed founders raised $8M+ in angel and pre-seed rounds; sustained 9/10 founder NPS at the 90th percentile across all cohorts.</li>
+          <li>Re-architected sourcing from passive inbound into an outbound, fund-relationship-led motion; built and retained a 15+ fund VC advisory board as a two-sided deal channel; delivered 6 qualified net-new deals to BD in 6 weeks.</li>
+          <li>Designed a $250K milestone-based SAFE awarded at Demo Day; engaged a 300+ investor network through the structure; built AI tools for application review, milestone tracking, and portfolio intelligence.</li>
+        </ul>
+      </div>
+
+      <div class="role sub">
+        <div class="role-head"><h3>Developers Ecosystem Lead</h3><span class="dates">2024 – 2026</span></div>
+        <ul>
+          <li>Convened DevRel, content, hackathons, and grants into one cross-functional operating layer aligned on shared acquisition OKRs; designed the developer user journey end to end; built automated communications infrastructure for each funnel stage.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="role-head"><h3>Director, Network &amp; Community <span class="at">@ M13</span></h3><span class="dates">2021 – 2023</span></div>
+      <p class="role-meta">Los Angeles, CA · Early-stage VC, $1B AUM</p>
+      <ul>
+        <li>Activated 15 institutional partners including AWS, GCP, and JP Morgan; originated 2 investments through network infrastructure; closed $200K in partnership commitments in year one.</li>
+        <li>Engaged 3,000+ founders and investors across 70+ events; designed the repeatable motion connecting BD, portfolio support, and programming so partner relationships produced pipeline and investment origination.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head"><h3>Director, Network Development <span class="at">@ SignalFire</span></h3><span class="dates">2018 – 2021</span></div>
+      <p class="role-meta">San Francisco, CA · AI-enabled VC, $4B AUM</p>
+      <ul>
+        <li>Co-founded the network development function from zero; built and led the AI Talent Community of 1,000+ engineers and data scientists, converting sustained engagement into proprietary dealflow and recruiting signal.</li>
+        <li>Supported 100+ portfolio companies across 300+ subject-matter roundtables including health tech companies such as Ro (telehealth) and Bicycle Health (virtual opioid-use-disorder treatment); built ~25 CXO relationships across the Fortune 500.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head"><h3>Manager, Global Community Relations <span class="at">@ XPRIZE</span></h3><span class="dates">2016 – 2018</span></div>
+      <p class="role-meta">Los Angeles, CA · Innovation nonprofit</p>
+      <ul>
+        <li>Managed the $11M AI XPRIZE end to end: recruited 156 teams across 22 countries, sustained 50+ institutional partnerships worth $4M+ including the United Nations, Stanford, MIT, and Harvard.</li>
+        <li>Served as primary account lead for IBM Watson; served on the organizing committee for the UN AI for Good Global Summit; partnered with Stanford to produce the public debut of the Stanford HAI program.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head"><h3>Earlier roles</h3><span class="dates">2010 – 2022</span></div>
+      <p class="role-meta">Free Machine, Co-Founder · NYC Housing Preservation &amp; Development, Senior Resiliency Planner · HD MADE, Director, Place-Based Innovation · St. Claude Main Street, Executive Director · The New Orleans Startup Fund, Program Manager</p>
+      <ul>
+        <li>Co-founded Free Machine, an AI policy nonprofit; co-authored a 2019 New York Times op-ed proposing a public option for artificial intelligence; secured direct engagement from 33 U.S. mayors.</li>
+        <li>As Senior Resiliency Planner at NYC HPD, coordinated 10 city agencies on a post-Hurricane Sandy resiliency and housing affordability plan; presented findings to city, state, and federal leaders.</li>
+        <li>Built St. Claude Main Street from $0 to a $450K annual budget with 50+ partnerships, named Louisiana's Best Main Street in 2014; managed $500K+ in government billings at HD MADE.</li>
+        <li>At The New Orleans Startup Fund, led due diligence on the investment pipeline, prepared investment committee memos, and managed portfolio relationships under founding managers Ralph Mauer and Jeremy Hunnewell.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="cols">
+      <div>
+        <p class="s-label">Published media</p>
+        <ul>
+          <li>"Artificial Intelligence Is Too Important to Leave to Google and Facebook Alone," <em>New York Times</em>, November 2019 (co-authored).</li>
+          <li>"Losing a Paper, Gaining an Opportunity," <em>Next City</em>, June 2012.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="s-label">Education</p>
+        <ul>
+          <li>M.A., Urban Planning, University of New Orleans.</li>
+          <li>B.A., Political Science, <em>Magna Cum Laude</em>, Pace University.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p>Prepared for the <span class="name">Rural Tech Catalyst Fund</span></p>
+    <a class="btn ghost" href="../">← Back to the model</a>
+  </div>
+
+</div>
+</main>
+</body>
+</html>

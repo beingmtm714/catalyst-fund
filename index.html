@@ -39,7 +39,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity;scroll-padding-top:128px}
+html{scroll-behavior:smooth;scroll-padding-top:128px}
 
 /* ---------- focus + press states (keyboard accessibility) ---------- */
 a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
@@ -107,8 +107,6 @@ body{
 }
 a{color:inherit}
 .wrap{max-width:var(--mw);margin:0 auto;padding:0 clamp(20px,5vw,48px)}
-/* snap aligns to section content (eyebrow), not the padded section border — keeps titles clear of the header with consistent spacing */
-section>.wrap{scroll-snap-align:start}
 
 /* fixed flowing field behind everything */
 #field{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
@@ -941,26 +939,32 @@ document.querySelectorAll('.r').forEach(el=>io.observe(el));
 const nf=document.getElementById('needsFlow');
 if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.4}).observe(nf);
 
-/* ---------- snap-safe in-page navigation ----------
-   scroll-snap otherwise interrupts long smooth anchor scrolls and dumps you at an
-   intermediate boundary. Disable snap for the duration of the programmatic scroll,
-   land precisely on the target's content, then re-enable snap once it settles. */
+/* ---------- in-page navigation + gentle boundary snap ----------
+   No CSS scroll-snap: it is symmetric and pulls you back to a section's top
+   while you read down. Instead, snap only fires after you come to REST near a
+   section boundary, and only in the direction you were already scrolling — so
+   scrolling down never yanks you backward; it just clicks into the next "page"
+   as that boundary arrives. Anchor clicks (nav, TOC) land precisely too. */
 (function(){
   const root=document.documentElement;
-  function navTo(target){
-    const pad=parseInt(getComputedStyle(root).scrollPaddingTop)||0;
-    const anchor=target.querySelector(':scope > .wrap')||target;
-    const y=Math.max(0, anchor.getBoundingClientRect().top+window.scrollY-pad);
-    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const prev=root.style.scrollSnapType;
-    root.style.scrollSnapType='none';
-    window.scrollTo({top:y, behavior:reduce?'auto':'smooth'});
-    let idle, fallback;
-    const restore=()=>{ root.style.scrollSnapType=prev; removeEventListener('scroll',onScroll); clearTimeout(fallback); };
-    const onScroll=()=>{ clearTimeout(idle); idle=setTimeout(restore,140); };
-    addEventListener('scroll',onScroll,{passive:true});
-    fallback=setTimeout(restore,1400);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sections=[...document.querySelectorAll('main section')];
+  let busy=false; // a programmatic scroll (nav or snap) is in flight
+  const pad=()=>parseInt(getComputedStyle(root).scrollPaddingTop)||0;
+  const alignedTop=(s)=>{ const w=s.querySelector(':scope > .wrap')||s; return w.getBoundingClientRect().top+window.scrollY-pad(); };
+
+  function glideTo(y){
+    busy=true;
+    const maxY=root.scrollHeight-innerHeight;
+    window.scrollTo({top:Math.max(0,Math.min(maxY,Math.round(y))), behavior:reduce?'auto':'smooth'});
+    let idle, fb;
+    const done=()=>{ busy=false; removeEventListener('scroll',watch); clearTimeout(fb); };
+    const watch=()=>{ clearTimeout(idle); idle=setTimeout(done,150); };
+    addEventListener('scroll',watch,{passive:true});
+    fb=setTimeout(done,1600);
   }
+
+  /* anchor clicks: move index, hero buttons, TOC */
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     const id=a.getAttribute('href');
     if(id.length<2) return;
@@ -968,10 +972,35 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
       const target=document.querySelector(id);
       if(!target) return;
       e.preventDefault();
-      navTo(target);
+      glideTo(alignedTop(target));
       history.replaceState(null,'',id);
     });
   });
+
+  /* gentle, directional boundary snap */
+  if(!reduce && sections.length){
+    const FWD=140; // magnet zone as the next boundary approaches
+    const BACK=24; // only a tiny overshoot correction against your direction
+    let lastY=window.scrollY, dir=0, t;
+    function trySnap(){
+      if(busy) return;
+      const cur=window.scrollY;
+      let delta=Infinity;
+      for(const s of sections){ const d=alignedTop(s)-cur; if(Math.abs(d)<Math.abs(delta)) delta=d; }
+      if(!isFinite(delta) || Math.abs(delta)<2) return;
+      const ok = dir>0 ? (delta<=FWD && delta>=-BACK)
+               : dir<0 ? (delta>=-FWD && delta<=BACK)
+               : false;
+      if(ok) glideTo(cur+delta);
+    }
+    addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      if(y!==lastY){ dir=y>lastY?1:-1; lastY=y; }
+      if(busy || ('onscrollend' in window)) return;
+      clearTimeout(t); t=setTimeout(trySnap,150);
+    },{passive:true});
+    if('onscrollend' in window) addEventListener('scrollend',()=>{ if(!busy) trySnap(); },{passive:true});
+  }
 })();
 
 /* ---------- table of contents: scroll-spy (rail + mobile sheet) ---------- */

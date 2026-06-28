@@ -1026,10 +1026,11 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
     addEventListener('scroll',()=>{
       const y=window.scrollY;
       if(y!==lastY){ dir=y>lastY?1:-1; lastY=y; }
-      if(busy || ('onscrollend' in window)) return;
-      clearTimeout(t); t=setTimeout(trySnap,150);
+      if(busy) return;
+      clearTimeout(t); t=setTimeout(trySnap,150); // debounced scroll-stop: works on every browser, incl. iOS momentum
     },{passive:true});
-    if('onscrollend' in window) addEventListener('scrollend',()=>{ if(!busy) trySnap(); },{passive:true});
+    // scrollend is a faster, precise trigger where it's reliable (desktop); the timer covers mobile
+    if('onscrollend' in window) addEventListener('scrollend',()=>{ if(!busy){ clearTimeout(t); trySnap(); } },{passive:true});
   }
 })();
 

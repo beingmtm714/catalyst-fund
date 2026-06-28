@@ -835,7 +835,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
 
     <figure class="ecosys r d3">
       <svg id="ecoSvg" class="eco-svg" viewBox="0 0 760 482" role="img" aria-label="A healthtech founder sits at the center of the ecosystem: anchor health systems (Ochsner, FMOL), the dominant payer (Louisiana Blue), national healthtech VCs, an advisor bench, a service-provider network, and the local startup ecosystem (Idea Village, Nexus)."></svg>
-      <figcaption class="ecocap" id="ecoCap">A founder here sits at the center of an ecosystem they couldn't assemble alone. Plug in, and customers, validation, and dealflow flow back. <b>Hover a node</b> to see what the fund opens up.</figcaption>
+      <figcaption class="ecocap" id="ecoCap">The founder is the primary beneficiary, but the architecture wires everyone to everyone. Value compounds in every direction, not just toward the center. <b>Hover a node</b> to see what it brings.</figcaption>
     </figure>
   </div>
 </section>
@@ -1152,7 +1152,7 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
   step();
 })();
 
-/* ---------- ecosystem node graphic (hub + subnodes, breathing pulse) ---------- */
+/* ---------- ecosystem mesh (interconnected: value flows every direction) ---------- */
 (function(){
   const svg=document.getElementById('ecoSvg');
   if(!svg) return;
@@ -1162,7 +1162,9 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
   const cap=document.getElementById('ecoCap');
   const capHTML=cap.innerHTML;
   const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
-  const nodes=[
+
+  const hub={x:cx,y:cy,r:hubR,edges:[]};
+  const outer=[
     {a:0,   label:'Anchor systems', sub:'Ochsner · FMOL',      desc:'Ochsner and FMOL, two logos covering most of the state, open warm pilots a startup can’t get cold.'},
     {a:60,  label:'Dominant payer', sub:'Louisiana Blue',      desc:'Louisiana Blue can underwrite and reimburse the first pilots.'},
     {a:120, label:'Healthtech VCs', sub:'national capital',    desc:'National investors the fund co-invests with, positioned to lead the next round.'},
@@ -1170,17 +1172,38 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
     {a:240, label:'Service network',sub:'credits & discounts', desc:'Credits and discounts, ideally from Louisiana providers, so the spend stays in-state.'},
     {a:300, label:'Local ecosystem',sub:'Idea Village · Nexus',desc:'Idea Village and Nexus, plugged in and ready to activate.'}
   ];
-  nodes.forEach(n=>{const t=n.a*Math.PI/180; n.x=cx+R*Math.sin(t); n.y=cy-R*Math.cos(t);});
+  outer.forEach(n=>{const t=n.a*Math.PI/180; n.x=cx+R*Math.sin(t); n.y=cy-R*Math.cos(t); n.r=nodeR; n.edges=[];});
 
   const gLink=el('g',{}), gHalo=el('g',{}), gPulse=el('g',{}), gNode=el('g',{}), gLabel=el('g',{});
   svg.append(gLink,gHalo,gPulse,gNode,gLabel);
 
-  const hubHalo=el('circle',{cx:cx,cy:cy,r:hubR+12,class:'eco-halo',opacity:.28}); gHalo.append(hubHalo);
+  // edges: every node wired to the founder AND to one another (ring + cross-links)
+  const edges=[];
+  function addEdge(a,b,kind){
+    const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy);
+    const e={a,b,kind,dx,dy,fA:a.r/len,fB:1-b.r/len}; edges.push(e); a.edges.push(e); b.edges.push(e); return e;
+  }
+  outer.forEach((n,i)=>{ addEdge(hub,n,'spoke'); addEdge(n,outer[(i+1)%6],'ring'); addEdge(n,outer[(i+2)%6],'chord'); });
 
-  nodes.forEach(n=>{
-    n.line=el('line',{x1:cx,y1:cy,x2:n.x,y2:n.y,class:'eco-link','stroke-width':1.5}); gLink.append(n.line);
-    n.halo=el('circle',{cx:n.x,cy:n.y,r:nodeR+9,class:'eco-halo',opacity:.06}); gHalo.append(n.halo);
-    n.pulse=el('circle',{r:4.5,class:'eco-pulse',opacity:0}); gPulse.append(n.pulse);
+  // links
+  edges.forEach(e=>{
+    e.line=el('line',{x1:e.a.x,y1:e.a.y,x2:e.b.x,y2:e.b.y,class:'eco-link',
+      stroke:e.kind==='chord'?'rgba(0,185,255,.12)':'rgba(0,185,255,.22)','stroke-width':e.kind==='spoke'?1.6:1.2});
+    gLink.append(e.line);
+  });
+
+  // halos
+  const hubHalo=el('circle',{cx:cx,cy:cy,r:hubR+12,class:'eco-halo',opacity:.26}); gHalo.append(hubHalo);
+  outer.forEach(n=>{ n.halo=el('circle',{cx:n.x,cy:n.y,r:nodeR+9,class:'eco-halo',opacity:.08}); gHalo.append(n.halo); });
+
+  // a travelling pulse on every edge, directions and timings staggered
+  edges.forEach((e,i)=>{
+    e.pulse=el('circle',{r:e.kind==='spoke'?4.4:3.6,class:'eco-pulse',opacity:0}); gPulse.append(e.pulse);
+    e.dur=3600+(i*331%2400); e.phase=(i*0.1657)%1; e.rev=(i%2===0);
+  });
+
+  // nodes + labels + hover
+  outer.forEach(n=>{
     n.circle=el('circle',{cx:n.x,cy:n.y,r:nodeR,class:'eco-node'}); gNode.append(n.circle);
     const out = n.a===0 ? {dx:0,dy:-(nodeR+18),anc:'middle'}
               : n.a===180 ? {dx:0,dy:(nodeR+28),anc:'middle'}
@@ -1188,29 +1211,27 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
     n.lblMain=el('text',{x:n.x+out.dx,y:n.y+out.dy,class:'eco-label','text-anchor':out.anc}); n.lblMain.textContent=n.label;
     n.lblSub=el('text',{x:n.x+out.dx,y:n.y+out.dy+15,class:'eco-sub','text-anchor':out.anc}); n.lblSub.textContent=n.sub;
     gLabel.append(n.lblMain,n.lblSub);
-    const hot=()=>{ cap.textContent=n.desc; n.circle.classList.add('hot'); n.lblMain.classList.add('hot'); n.line.style.stroke='rgba(0,185,255,.6)'; };
-    const cool=()=>{ cap.innerHTML=capHTML; n.circle.classList.remove('hot'); n.lblMain.classList.remove('hot'); n.line.style.stroke=''; };
+    const hot=()=>{ cap.textContent=n.desc; n.circle.classList.add('hot'); n.lblMain.classList.add('hot'); n.edges.forEach(e=>e.line.style.stroke='rgba(0,185,255,.6)'); };
+    const cool=()=>{ cap.innerHTML=capHTML; n.circle.classList.remove('hot'); n.lblMain.classList.remove('hot'); n.edges.forEach(e=>e.line.style.stroke=''); };
     [n.circle,n.lblMain].forEach(t=>{ t.addEventListener('mouseenter',hot); t.addEventListener('mouseleave',cool); t.addEventListener('click',hot); });
   });
 
+  // founder hub (primary beneficiary, still part of the mesh)
   gNode.append(el('circle',{cx:cx,cy:cy,r:hubR,class:'eco-hub'}));
   const hl1=el('text',{x:cx,y:cy-4,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='Healthtech'; gLabel.append(hl1);
   const hl2=el('text',{x:cx,y:cy+13,class:'eco-hublabel','text-anchor':'middle'}); hl2.textContent='Founder'; gLabel.append(hl2);
 
-  const PERIOD=5200, A=0.30, B=0.52;
   let raf;
   function frame(now){
-    const ph=(now%PERIOD)/PERIOD;
-    const p=(1-Math.cos(ph*2*Math.PI))/2;      // 0 -> 1 -> 0, slow breath out then back
-    const pp=A+B*p;
-    const op=(0.4+0.55*Math.sin(p*Math.PI)).toFixed(3);
-    nodes.forEach(n=>{
-      n.pulse.setAttribute('cx',(cx+(n.x-cx)*pp).toFixed(1));
-      n.pulse.setAttribute('cy',(cy+(n.y-cy)*pp).toFixed(1));
-      n.pulse.setAttribute('opacity',op);
-      n.halo.setAttribute('opacity',(0.05+0.34*p).toFixed(3));
+    edges.forEach(e=>{
+      const u=((now/e.dur+e.phase)%1), uu=e.rev?1-u:u, f=e.fA+uu*(e.fB-e.fA);
+      e.pulse.setAttribute('cx',(e.a.x+e.dx*f).toFixed(1));
+      e.pulse.setAttribute('cy',(e.a.y+e.dy*f).toFixed(1));
+      e.pulse.setAttribute('opacity',(0.8*Math.sin(u*Math.PI)).toFixed(3));
     });
-    hubHalo.setAttribute('opacity',(0.1+0.32*(1-p)).toFixed(3));
+    const t=now/1000;
+    outer.forEach((n,i)=>{ n.halo.setAttribute('opacity',(0.07+0.13*(0.5+0.5*Math.sin(t*0.7+i*1.1))).toFixed(3)); });
+    hubHalo.setAttribute('opacity',(0.2+0.15*(0.5+0.5*Math.sin(t*0.6))).toFixed(3));
     raf=requestAnimationFrame(frame);
   }
   if(!reduce) raf=requestAnimationFrame(frame);

@@ -389,7 +389,7 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
 .eco-label{fill:var(--gray);font-size:14px;font-weight:600;cursor:pointer}
 .eco-label.hot{fill:var(--blue)}
 .eco-sub{fill:var(--gray2);font-size:11.5px;font-weight:400;pointer-events:none}
-.eco-hublabel{fill:var(--blue);font-size:16px;font-weight:800;letter-spacing:.06em}
+.eco-hublabel{fill:var(--blue);font-size:13.5px;font-weight:800;letter-spacing:.02em}
 .ecocap{text-align:center;color:var(--gray2);font-size:.92rem;line-height:1.5;margin:14px auto 0;max-width:60ch;min-height:3em}
 .ecocap b{color:var(--white);font-weight:600}
 @media(prefers-reduced-motion:reduce){.eco-pulse{display:none}}
@@ -834,8 +834,8 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
     <p class="lead-p r d3" style="margin-top:24px">Every stage is value capital alone can't buy. The check is the smallest part of what a founder gets here.</p>
 
     <figure class="ecosys r d3">
-      <svg id="ecoSvg" class="eco-svg" viewBox="0 0 760 482" role="img" aria-label="The fund sits at the center of its ecosystem: anchor health systems (Ochsner, FMOL), the dominant payer (Louisiana Blue), national healthtech VCs, an advisor bench, a service-provider network, and the local startup ecosystem (Idea Village, Nexus)."></svg>
-      <figcaption class="ecocap" id="ecoCap">The fund sits at the center of an ecosystem a founder couldn't assemble alone. Capital reaches out to activate it; customers, validation, and dealflow flow back. <b>Hover a node</b> to see what plugs in.</figcaption>
+      <svg id="ecoSvg" class="eco-svg" viewBox="0 0 760 482" role="img" aria-label="A healthtech founder sits at the center of the ecosystem: anchor health systems (Ochsner, FMOL), the dominant payer (Louisiana Blue), national healthtech VCs, an advisor bench, a service-provider network, and the local startup ecosystem (Idea Village, Nexus)."></svg>
+      <figcaption class="ecocap" id="ecoCap">A founder here sits at the center of an ecosystem they couldn't assemble alone. Plug in, and customers, validation, and dealflow flow back. <b>Hover a node</b> to see what the fund opens up.</figcaption>
     </figure>
   </div>
 </section>
@@ -1194,8 +1194,8 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
   });
 
   gNode.append(el('circle',{cx:cx,cy:cy,r:hubR,class:'eco-hub'}));
-  const hl1=el('text',{x:cx,y:cy-1,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='RTCF'; gLabel.append(hl1);
-  const hl2=el('text',{x:cx,y:cy+15,class:'eco-sub','text-anchor':'middle'}); hl2.textContent='the fund'; gLabel.append(hl2);
+  const hl1=el('text',{x:cx,y:cy-4,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='Healthtech'; gLabel.append(hl1);
+  const hl2=el('text',{x:cx,y:cy+13,class:'eco-hublabel','text-anchor':'middle'}); hl2.textContent='Founder'; gLabel.append(hl2);
 
   const PERIOD=5200, A=0.30, B=0.52;
   let raf;

@@ -367,15 +367,32 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
 .partners span b{color:var(--blue);font-weight:700}
 
 /* ---------- founder's runway (offer journey) ---------- */
-.journey{display:flex;align-items:stretch;gap:0;margin-top:34px}
+.journey{display:flex;align-items:stretch;gap:10px;margin-top:34px}
 @media(max-width:760px){.journey{flex-direction:column}}
-.jstep{flex:1;border:1px solid var(--line2);border-radius:14px;padding:18px 17px;background:rgba(10,34,54,.45);text-align:left}
-.jstep.up{border-color:rgba(0,185,255,.5);background:rgba(0,185,255,.06);box-shadow:0 0 0 4px rgba(0,185,255,.04)}
-.jstep .jt{font-weight:700;font-size:1rem;color:var(--white);margin-bottom:7px;line-height:1.2}
-.jstep.up .jt{color:var(--blue)}
-.jstep .jd{font-size:.83rem;color:var(--gray2);line-height:1.45}
-.jarrow{display:flex;align-items:center;color:var(--blue);font-weight:700;font-size:1.3rem;padding:0 10px;flex:none}
-@media(max-width:760px){.jarrow{transform:rotate(90deg);padding:5px 0;align-self:center}}
+.journey>.tile{flex:1;margin:0}
+.journey>.tile h4{min-height:2.44em}
+.journey>.tile.up{border-color:rgba(0,185,255,.5);background:rgba(0,185,255,.06)}
+.journey>.tile.up:hover{background:rgba(0,185,255,.1)}
+.journey>.tile.up h4{color:var(--blue)}
+.jarrow{display:flex;align-items:center;color:var(--blue);font-weight:700;font-size:1.3rem;flex:none}
+@media(max-width:760px){.jarrow{transform:rotate(90deg);align-self:center;padding:4px 0}}
+
+/* ---------- ecosystem node graphic ---------- */
+.ecosys{margin-top:46px}
+.eco-svg{width:100%;height:auto;display:block;max-width:700px;margin:0 auto;overflow:visible}
+.eco-link{stroke:rgba(0,185,255,.22);transition:stroke .2s}
+.eco-halo{fill:var(--blue)}
+.eco-pulse{fill:var(--blue2)}
+.eco-node{fill:rgba(8,28,46,.94);stroke:var(--blue);stroke-width:1.6;cursor:pointer;transition:stroke-width .2s}
+.eco-node:hover,.eco-node.hot{stroke-width:2.6}
+.eco-hub{fill:rgba(0,185,255,.1);stroke:var(--blue);stroke-width:2}
+.eco-label{fill:var(--gray);font-size:14px;font-weight:600;cursor:pointer}
+.eco-label.hot{fill:var(--blue)}
+.eco-sub{fill:var(--gray2);font-size:11.5px;font-weight:400;pointer-events:none}
+.eco-hublabel{fill:var(--blue);font-size:16px;font-weight:800;letter-spacing:.06em}
+.ecocap{text-align:center;color:var(--gray2);font-size:.92rem;line-height:1.5;margin:14px auto 0;max-width:60ch;min-height:3em}
+.ecocap b{color:var(--white);font-weight:600}
+@media(prefers-reduced-motion:reduce){.eco-pulse{display:none}}
 
 /* ---------- tiles, northstars, options, open questions ---------- */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
@@ -806,35 +823,20 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
     <p class="lead-p r d2">A strong founder can raise capital anywhere. What makes building here an advantage is everything around the check: a market where the work matters, a platform that helps them win, and a path to the customers, credibility, and investors that carry a company to its next round.</p>
 
     <div class="journey r d2">
-      <div class="jstep">
-        <div class="jt">A market with the most to prove</div>
-        <div class="jd">Worst-ranked health in the US, ~2M on Medicaid. Impact you can measure, and a state to expand across.</div>
-      </div>
+      <div class="tile"><div class="k">Why here</div><h4>A market with the most to prove</h4><p>Worst-ranked health in the US, ~2M on Medicaid. Impact you can measure, and a state to expand across.</p></div>
       <div class="jarrow" aria-hidden="true">→</div>
-      <div class="jstep">
-        <div class="jt">A platform that helps them win</div>
-        <div class="jd">Service-provider credits, an advisor bench, and warm pilots with Ochsner, FMOL, and Louisiana Blue.</div>
-      </div>
+      <div class="tile"><div class="k">The support</div><h4>A platform that helps them win</h4><p>Service-provider credits, an advisor bench, and warm pilots with Ochsner, FMOL, and Louisiana Blue.</p></div>
       <div class="jarrow" aria-hidden="true">→</div>
-      <div class="jstep">
-        <div class="jt">Proof, and the logos</div>
-        <div class="jd">Measurable results and anchor-institution references when the founder goes out to raise.</div>
-      </div>
+      <div class="tile"><div class="k">Credibility</div><h4>Proof, and the logos</h4><p>Measurable results and anchor-institution references when the founder goes out to raise.</p></div>
       <div class="jarrow" aria-hidden="true">→</div>
-      <div class="jstep up">
-        <div class="jt">A path to top VCs</div>
-        <div class="jd">The fund's national healthtech-VC relationships become warm intros into a stronger next round.</div>
-      </div>
+      <div class="tile up"><div class="k">Next round</div><h4>A path to top VCs</h4><p>The fund's national healthtech-VC relationships become warm intros into a stronger next round.</p></div>
     </div>
     <p class="lead-p r d3" style="margin-top:24px">Every stage is value capital alone can't buy. The check is the smallest part of what a founder gets here.</p>
 
-    <div class="partners r d3">
-      <span>Ready to activate: <b>Louisiana Blue</b></span>
-      <span><b>Ochsner</b></span>
-      <span><b>FMOL</b></span>
-      <span>Funnel partners: <b>Idea Village</b></span>
-      <span><b>Nexus</b></span>
-    </div>
+    <figure class="ecosys r d3">
+      <svg id="ecoSvg" class="eco-svg" viewBox="0 0 760 482" role="img" aria-label="The fund sits at the center of its ecosystem: anchor health systems (Ochsner, FMOL), the dominant payer (Louisiana Blue), national healthtech VCs, an advisor bench, a service-provider network, and the local startup ecosystem (Idea Village, Nexus)."></svg>
+      <figcaption class="ecocap" id="ecoCap">The fund sits at the center of an ecosystem a founder couldn't assemble alone. Capital reaches out to activate it; customers, validation, and dealflow flow back. <b>Hover a node</b> to see what plugs in.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1148,6 +1150,70 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
     requestAnimationFrame(step);
   }
   step();
+})();
+
+/* ---------- ecosystem node graphic (hub + subnodes, breathing pulse) ---------- */
+(function(){
+  const svg=document.getElementById('ecoSvg');
+  if(!svg) return;
+  const NS='http://www.w3.org/2000/svg';
+  const cx=380, cy=233, R=168, hubR=50, nodeR=31;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cap=document.getElementById('ecoCap');
+  const capHTML=cap.innerHTML;
+  const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const nodes=[
+    {a:0,   label:'Anchor systems', sub:'Ochsner · FMOL',      desc:'Ochsner and FMOL, two logos covering most of the state, open warm pilots a startup can’t get cold.'},
+    {a:60,  label:'Dominant payer', sub:'Louisiana Blue',      desc:'Louisiana Blue can underwrite and reimburse the first pilots.'},
+    {a:120, label:'Healthtech VCs', sub:'national capital',    desc:'National investors the fund co-invests with, positioned to lead the next round.'},
+    {a:180, label:'Advisor bench',  sub:'operators on call',   desc:'Operators on call for go-to-market, pricing, and fundraising.'},
+    {a:240, label:'Service network',sub:'credits & discounts', desc:'Credits and discounts, ideally from Louisiana providers, so the spend stays in-state.'},
+    {a:300, label:'Local ecosystem',sub:'Idea Village · Nexus',desc:'Idea Village and Nexus, plugged in and ready to activate.'}
+  ];
+  nodes.forEach(n=>{const t=n.a*Math.PI/180; n.x=cx+R*Math.sin(t); n.y=cy-R*Math.cos(t);});
+
+  const gLink=el('g',{}), gHalo=el('g',{}), gPulse=el('g',{}), gNode=el('g',{}), gLabel=el('g',{});
+  svg.append(gLink,gHalo,gPulse,gNode,gLabel);
+
+  const hubHalo=el('circle',{cx:cx,cy:cy,r:hubR+12,class:'eco-halo',opacity:.28}); gHalo.append(hubHalo);
+
+  nodes.forEach(n=>{
+    n.line=el('line',{x1:cx,y1:cy,x2:n.x,y2:n.y,class:'eco-link','stroke-width':1.5}); gLink.append(n.line);
+    n.halo=el('circle',{cx:n.x,cy:n.y,r:nodeR+9,class:'eco-halo',opacity:.06}); gHalo.append(n.halo);
+    n.pulse=el('circle',{r:4.5,class:'eco-pulse',opacity:0}); gPulse.append(n.pulse);
+    n.circle=el('circle',{cx:n.x,cy:n.y,r:nodeR,class:'eco-node'}); gNode.append(n.circle);
+    const out = n.a===0 ? {dx:0,dy:-(nodeR+18),anc:'middle'}
+              : n.a===180 ? {dx:0,dy:(nodeR+28),anc:'middle'}
+              : (n.x>cx ? {dx:(nodeR+12),dy:4,anc:'start'} : {dx:-(nodeR+12),dy:4,anc:'end'});
+    n.lblMain=el('text',{x:n.x+out.dx,y:n.y+out.dy,class:'eco-label','text-anchor':out.anc}); n.lblMain.textContent=n.label;
+    n.lblSub=el('text',{x:n.x+out.dx,y:n.y+out.dy+15,class:'eco-sub','text-anchor':out.anc}); n.lblSub.textContent=n.sub;
+    gLabel.append(n.lblMain,n.lblSub);
+    const hot=()=>{ cap.textContent=n.desc; n.circle.classList.add('hot'); n.lblMain.classList.add('hot'); n.line.style.stroke='rgba(0,185,255,.6)'; };
+    const cool=()=>{ cap.innerHTML=capHTML; n.circle.classList.remove('hot'); n.lblMain.classList.remove('hot'); n.line.style.stroke=''; };
+    [n.circle,n.lblMain].forEach(t=>{ t.addEventListener('mouseenter',hot); t.addEventListener('mouseleave',cool); t.addEventListener('click',hot); });
+  });
+
+  gNode.append(el('circle',{cx:cx,cy:cy,r:hubR,class:'eco-hub'}));
+  const hl1=el('text',{x:cx,y:cy-1,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='RTCF'; gLabel.append(hl1);
+  const hl2=el('text',{x:cx,y:cy+15,class:'eco-sub','text-anchor':'middle'}); hl2.textContent='the fund'; gLabel.append(hl2);
+
+  const PERIOD=5200, A=0.30, B=0.52;
+  let raf;
+  function frame(now){
+    const ph=(now%PERIOD)/PERIOD;
+    const p=(1-Math.cos(ph*2*Math.PI))/2;      // 0 -> 1 -> 0, slow breath out then back
+    const pp=A+B*p;
+    const op=(0.4+0.55*Math.sin(p*Math.PI)).toFixed(3);
+    nodes.forEach(n=>{
+      n.pulse.setAttribute('cx',(cx+(n.x-cx)*pp).toFixed(1));
+      n.pulse.setAttribute('cy',(cy+(n.y-cy)*pp).toFixed(1));
+      n.pulse.setAttribute('opacity',op);
+      n.halo.setAttribute('opacity',(0.05+0.34*p).toFixed(3));
+    });
+    hubHalo.setAttribute('opacity',(0.1+0.32*(1-p)).toFixed(3));
+    raf=requestAnimationFrame(frame);
+  }
+  if(!reduce) raf=requestAnimationFrame(frame);
 })();
 </script>
 </body>

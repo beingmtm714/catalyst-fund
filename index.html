@@ -118,6 +118,17 @@ a{color:inherit}
 }
 main,header,footer{position:relative;z-index:2}
 
+/* ---------- back to top ---------- */
+.totop{position:fixed;z-index:42;right:clamp(16px,2vw,28px);bottom:clamp(18px,3vh,28px);
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,34,54,.7);border:1px solid var(--line2);color:var(--blue);cursor:pointer;
+  opacity:0;transform:translateY(10px);pointer-events:none;backdrop-filter:blur(8px);
+  transition:opacity .3s,transform .3s,background .2s,border-color .2s}
+.totop.show{opacity:.55;transform:none;pointer-events:auto}
+.totop.show:hover{opacity:1;background:rgba(0,185,255,.12);border-color:rgba(0,185,255,.5);transform:translateY(-2px)}
+.totop svg{width:20px;height:20px}
+@media(max-width:680px){.totop{width:44px;height:44px}}
+
 /* ---------- nav ---------- */
 header{position:sticky;top:0;z-index:50;
   backdrop-filter:blur(10px);
@@ -559,6 +570,10 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <a href="#plan">Playbook</a>
 </nav>
 
+<button class="totop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
 <main>
 
 <!-- ===================== HERO ===================== -->
@@ -953,6 +968,16 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
 </footer>
 
 <script>
+/* ---------- back-to-top button ---------- */
+(function(){
+  const btn=document.querySelector('.totop');
+  if(!btn) return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const onScroll=()=>btn.classList.toggle('show', window.scrollY > innerHeight*0.7);
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}));
+})();
+
 /* ---------- reveal on scroll ---------- */
 const io = new IntersectionObserver((es)=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); if(e.target.id==='needsFlow') e.target.classList.add('in'); } });

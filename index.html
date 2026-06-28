@@ -366,6 +366,17 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
 .partners span{font-size:.82rem;padding:8px 15px;border-radius:999px;border:1px solid var(--line2);color:var(--gray);background:rgba(10,34,54,.5)}
 .partners span b{color:var(--blue);font-weight:700}
 
+/* ---------- founder's runway (offer journey) ---------- */
+.journey{display:flex;align-items:stretch;gap:0;margin-top:34px}
+@media(max-width:760px){.journey{flex-direction:column}}
+.jstep{flex:1;border:1px solid var(--line2);border-radius:14px;padding:18px 17px;background:rgba(10,34,54,.45);text-align:left}
+.jstep.up{border-color:rgba(0,185,255,.5);background:rgba(0,185,255,.06);box-shadow:0 0 0 4px rgba(0,185,255,.04)}
+.jstep .jt{font-weight:700;font-size:1rem;color:var(--white);margin-bottom:7px;line-height:1.2}
+.jstep.up .jt{color:var(--blue)}
+.jstep .jd{font-size:.83rem;color:var(--gray2);line-height:1.45}
+.jarrow{display:flex;align-items:center;color:var(--blue);font-weight:700;font-size:1.3rem;padding:0 10px;flex:none}
+@media(max-width:760px){.jarrow{transform:rotate(90deg);padding:5px 0;align-self:center}}
+
 /* ---------- tiles, northstars, options, open questions ---------- */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
 @media(max-width:680px){.grid2{grid-template-columns:1fr}}
@@ -506,7 +517,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <a href="#needs"><span class="tlabel">Needs assessment</span><span class="ttick"></span></a>
   <a href="#sourcing"><span class="tlabel">Sourcing</span><span class="ttick"></span></a>
   <a href="#capital"><span class="tlabel">The offer to founders</span><span class="ttick"></span></a>
-  <a href="#messaging"><span class="tlabel">Positioning</span><span class="ttick"></span></a>
+  <a href="#messaging"><span class="tlabel">How the money works</span><span class="ttick"></span></a>
   <a href="#plan"><span class="tlabel">Playbook</span><span class="ttick"></span></a>
 </nav>
 
@@ -527,7 +538,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <a href="#needs">Needs assessment</a>
   <a href="#sourcing">Sourcing</a>
   <a href="#capital">The offer to founders</a>
-  <a href="#messaging">Positioning</a>
+  <a href="#messaging">How the money works</a>
   <a href="#plan">Playbook</a>
 </nav>
 
@@ -626,8 +637,8 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
       <a class="move" href="#architecture"><span class="go">→</span><div class="mn">01</div><h4>Program architecture</h4><p>One core, expertise on demand.</p></a>
       <a class="move" href="#needs"><span class="go">→</span><div class="mn">02</div><h4>Needs assessment</h4><p>Build from real demand.</p></a>
       <a class="move" href="#sourcing"><span class="go">→</span><div class="mn">03</div><h4>Active sourcing</h4><p>Source it, don't wait.</p></a>
-      <a class="move" href="#capital"><span class="go">→</span><div class="mn">04</div><h4>The offer to founders</h4><p>More than a check.</p></a>
-      <a class="move" href="#messaging"><span class="go">→</span><div class="mn">05</div><h4>Positioning</h4><p>State money as the edge.</p></a>
+      <a class="move" href="#capital"><span class="go">→</span><div class="mn">04</div><h4>The offer to founders</h4><p>An unfair advantage.</p></a>
+      <a class="move" href="#messaging"><span class="go">→</span><div class="mn">05</div><h4>How the money works</h4><p>Equity, not grants.</p></a>
       <a class="move" href="#plan"><span class="go">→</span><div class="mn">06</div><h4>Phased playbook</h4><p>Run it, every cohort.</p></a>
     </div>
     <p class="r d3" style="margin-top:24px"><a href="resume/" style="color:var(--blue);font-weight:700;text-decoration:none">See the track record →</a></p>
@@ -795,54 +806,38 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
 <section id="capital">
   <div class="wrap">
     <p class="eyebrow r">04 · The offer to founders</p>
-    <h2 class="lead-h r d1">Capital that helps, on terms founders accept</h2>
-    <p class="lead-p r d2">Cohort 1 awards are milestone-based grants today. Milestones keep the state accountable, but a milestone grant is what a founder who can raise elsewhere turns down. Move that accountability into the deal: clean equity on an uncapped SAFE, with the local-impact commitments in the side letter instead. The fund never leads; a quasi-public agency setting the price is a negative signal.</p>
+    <h2 class="lead-h r d1">State money as an unfair advantage</h2>
+    <p class="lead-p r d2">A strong founder can raise capital anywhere. What makes building here an advantage is everything around the check: a market where the work matters, a platform that helps them win, and a path to the customers, credibility, and investors that carry a company to its next round.</p>
 
-    <div class="three r d2">
-      <div class="tile">
-        <div class="k">Instrument</div>
-        <h4>Uncapped SAFE</h4>
-        <p>MFN on larger checks. Clean and out of the lead's way.</p>
+    <div class="journey r d2">
+      <div class="jstep">
+        <div class="jt">A market with the most to prove</div>
+        <div class="jd">Worst-ranked health in the US, ~2M on Medicaid. Impact you can measure, and a state to expand across.</div>
       </div>
-      <div class="tile">
-        <div class="k">Accountability</div>
-        <h4>Milestones become terms</h4>
-        <p>The discipline of milestones moves into the SAFE and side letter, not a grant a fundable founder would refuse.</p>
+      <div class="jarrow" aria-hidden="true">→</div>
+      <div class="jstep">
+        <div class="jt">A platform that helps them win</div>
+        <div class="jd">Service-provider credits, an advisor bench, and warm pilots with Ochsner, FMOL, and Louisiana Blue.</div>
       </div>
-      <div class="tile">
-        <div class="k">Check size</div>
-        <h4>Big enough to matter</h4>
-        <p>Meaningful in a pre-seed or seed round, never the largest line.</p>
+      <div class="jarrow" aria-hidden="true">→</div>
+      <div class="jstep">
+        <div class="jt">Proof, and the logos</div>
+        <div class="jd">Measurable results and anchor-institution references when the founder goes out to raise.</div>
+      </div>
+      <div class="jarrow" aria-hidden="true">→</div>
+      <div class="jstep up">
+        <div class="jt">A path to top VCs</div>
+        <div class="jd">The fund's national healthtech-VC relationships become warm intros into a stronger next round.</div>
       </div>
     </div>
+    <p class="lead-p r d3" style="margin-top:24px">Every stage is value capital alone can't buy. The check is the smallest part of what a founder gets here.</p>
 
-    <div class="subhead r d3">The platform behind the check</div>
-    <p class="lead-p r d3">A strong founder can find capital anywhere. A co-investor that brings a real support platform is rarer, and it's the reason the fund's check is the one they take. This is the VC-platform layer the fund builds to source, diligence, and back founders.</p>
-    <div class="three r d3">
-      <div class="tile">
-        <div class="k">Service-provider network</div>
-        <h4>Credits &amp; discounts</h4>
-        <p>Ideally from Louisiana providers, so the spend lands in the local economy.</p>
-      </div>
-      <div class="tile">
-        <div class="k">Advisor bench</div>
-        <h4>Operators on call</h4>
-        <p>Ad-hoc GTM, fundraising, and pricing help when a founder needs it.</p>
-      </div>
-      <div class="tile">
-        <div class="k">Pilot-customer bench</div>
-        <h4>Doors capital can't open</h4>
-        <p>Warm intros to Ochsner, FMOL, and Louisiana Blue.</p>
-      </div>
-    </div>
-
-    <div class="subhead r d3">Why a national founder says yes to Louisiana</div>
-    <div class="criteria r d3" style="margin-top:0">
-      <span><b>Two logos, most of the state</b> · Ochsner &amp; FMOL anchor acute care</span>
-      <span><b>A digital-forward anchor</b> · Ochsner runs remote-care at scale, wired to adopt and measure new tools</span>
-      <span><b>Worst-ranked health in the US</b> · measurable impact to point to</span>
-      <span><b>~2M on Medicaid</b> · value-based and rural-care fit</span>
-      <span><b>One dominant insurer</b> · Louisiana Blue can underwrite pilots</span>
+    <div class="partners r d3">
+      <span>Ready to activate: <b>Louisiana Blue</b></span>
+      <span><b>Ochsner</b></span>
+      <span><b>FMOL</b></span>
+      <span>Funnel partners: <b>Idea Village</b></span>
+      <span><b>Nexus</b></span>
     </div>
   </div>
 </section>
@@ -850,31 +845,29 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
 <!-- ===================== MESSAGING ===================== -->
 <section id="messaging">
   <div class="wrap">
-    <p class="eyebrow r">05 · Positioning for LED</p>
-    <h2 class="lead-h r d1">State money as the unfair advantage</h2>
-    <p class="lead-p r d2">The framing decides who applies.</p>
+    <p class="eyebrow r">05 · How the money works</p>
+    <h2 class="lead-h r d1">The capital itself is a feature</h2>
+    <p class="lead-p r d2">The structure is part of the offer, not a tax on it. Cohort 1 awards are milestone grants today, and a milestone grant is what a fundable founder turns down. So the accountability moves into the deal.</p>
 
-    <div class="split r d2" style="margin-top:28px">
-      <div class="col x">
-        <div class="lbl">✕ Money of last resort</div>
-        <h4>A grant nobody else would give</h4>
-        <p>Draws founders rejected elsewhere. The portfolio underperforms, LED has nothing to market.</p>
+    <div class="three r d2">
+      <div class="tile">
+        <div class="k">Instrument</div>
+        <h4>Uncapped SAFE</h4>
+        <p>Clean equity, MFN on the larger checks, out of the lead's way. Not a grant.</p>
       </div>
-      <div class="col o">
-        <div class="lbl"><svg width="14" height="14" viewBox="0 0 24 40" aria-hidden="true"><use href="#chevR"/></svg> Additive capital</div>
-        <h4>What capital can't buy</h4>
-        <p>Pilot customers, institutional testimonials, case studies LED markets. A partner founders compete to work with.</p>
+      <div class="tile">
+        <div class="k">Accountability</div>
+        <h4>No milestones, just terms</h4>
+        <p>The discipline moves into the SAFE and a side letter, where the local-impact commitments live, instead of strings a founder would refuse.</p>
+      </div>
+      <div class="tile">
+        <div class="k">Check size</div>
+        <h4>Big enough to matter</h4>
+        <p>Meaningful in a pre-seed or seed round, never so large it reads as a negative signal.</p>
       </div>
     </div>
 
-    <div class="partners r d3">
-      <span>Activate: <b>Louisiana Blue</b></span>
-      <span><b>Ochsner</b></span>
-      <span><b>FMOL</b></span>
-      <span>Funnel: <b>Idea Village</b></span>
-      <span><b>Nexus</b></span>
-      <span>Ready to play. They need the plan.</span>
-    </div>
+    <p class="lead-p r d3" style="margin-top:26px">The fund never leads. A quasi-public agency setting the price is a negative signal.</p>
   </div>
 </section>
 

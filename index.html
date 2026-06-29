@@ -403,6 +403,13 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
 .eco-hublabel{fill:var(--blue);font-size:13.5px;font-weight:800;letter-spacing:.02em}
 .ecocap{text-align:center;color:var(--gray2);font-size:.92rem;line-height:1.5;margin:14px auto 0;max-width:60ch;min-height:3em}
 .ecocap b{color:var(--white);font-weight:600}
+/* larger, legible labels on phones (paired with the compact mobile layout in JS) */
+@media(max-width:600px){
+  .eco-svg{max-width:none}
+  .eco-label{font-size:17px}
+  .eco-sub{font-size:13px}
+  .eco-hublabel{font-size:16.5px}
+}
 @media(prefers-reduced-motion:reduce){.eco-pulse{display:none}}
 
 /* ---------- tiles, northstars, options, open questions ---------- */
@@ -1026,11 +1033,15 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
 
   /* gentle, directional boundary snap */
   if(!reduce && sections.length){
-    const FWD=140; // magnet zone as the next boundary approaches
-    const BACK=24; // only a tiny overshoot correction against your direction
     let lastY=window.scrollY, dir=0, t;
     function trySnap(){
       if(busy) return;
+      // On touch/mobile, momentum scrolling rarely comes to rest within a small
+      // fixed magnet zone, so the snap never fired. Scale the capture zone to the
+      // viewport there so a boundary in your scroll direction reliably clicks in.
+      const touch=matchMedia('(max-width:820px)').matches;
+      const FWD=touch?Math.round(innerHeight*0.42):140; // magnet zone as the next boundary approaches
+      const BACK=touch?Math.round(innerHeight*0.10):24;  // small overshoot correction against your direction
       const cur=window.scrollY;
       let delta=Infinity;
       for(const s of sections){ const d=alignedTop(s)-cur; if(Math.abs(d)<Math.abs(delta)) delta=d; }
@@ -1182,14 +1193,12 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
   const svg=document.getElementById('ecoSvg');
   if(!svg) return;
   const NS='http://www.w3.org/2000/svg';
-  const cx=380, cy=233, R=168, hubR=50, nodeR=31;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cap=document.getElementById('ecoCap');
   const capHTML=cap.innerHTML;
   const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
-  const hub={x:cx,y:cy,r:hubR,edges:[]};
-  const outer=[
+  const DATA=[
     {a:0,   label:'Anchor systems', sub:'Ochsner · FMOL',      desc:'Ochsner and FMOL, two logos covering most of the state, open warm pilots a startup can’t get cold.'},
     {a:60,  label:'Dominant payer', sub:'Louisiana Blue',      desc:'Louisiana Blue can underwrite and reimburse the first pilots.'},
     {a:120, label:'Healthtech VCs', sub:'national capital',    desc:'National investors the fund co-invests with, positioned to lead the next round.'},
@@ -1197,69 +1206,102 @@ if(nf) new IntersectionObserver((es)=>es.forEach(e=>e.isIntersecting&&e.target.c
     {a:240, label:'Service network',sub:'credits & discounts', desc:'Credits and discounts, ideally from Louisiana providers, so the spend stays in-state.'},
     {a:300, label:'Local ecosystem',sub:'Idea Village · Nexus',desc:'Idea Village and Nexus, plugged in and ready to activate.'}
   ];
-  outer.forEach(n=>{const t=n.a*Math.PI/180; n.x=cx+R*Math.sin(t); n.y=cy-R*Math.cos(t); n.r=nodeR; n.edges=[];});
 
-  const gLink=el('g',{}), gHalo=el('g',{}), gPulse=el('g',{}), gNode=el('g',{}), gLabel=el('g',{});
-  svg.append(gLink,gHalo,gPulse,gNode,gLabel);
+  // Phones get a more compact, taller viewBox so the diagram renders LARGER
+  // (a wide 760-unit box scaled to a narrow screen shrinks everything); labels
+  // stack centered above/below each node so nothing clips on a small width.
+  const cfgFor=()=> matchMedia('(max-width:600px)').matches
+    ? {vbW:500,vbH:520,cx:250,cy:240,R:150,hubR:54,nodeR:36,stack:true}
+    : {vbW:760,vbH:482,cx:380,cy:233,R:168,hubR:50,nodeR:31,stack:false};
 
-  // edges: every node wired to the founder AND to one another (ring + cross-links)
-  const edges=[];
-  function addEdge(a,b,kind){
-    const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy);
-    const e={a,b,kind,dx,dy,fA:a.r/len,fB:1-b.r/len}; edges.push(e); a.edges.push(e); b.edges.push(e); return e;
-  }
-  outer.forEach((n,i)=>{ addEdge(hub,n,'spoke'); addEdge(n,outer[(i+1)%6],'ring'); addEdge(n,outer[(i+2)%6],'chord'); });
+  let raf=null, mode=null;
 
-  // links
-  edges.forEach(e=>{
-    e.line=el('line',{x1:e.a.x,y1:e.a.y,x2:e.b.x,y2:e.b.y,class:'eco-link',
-      stroke:e.kind==='chord'?'rgba(0,185,255,.12)':'rgba(0,185,255,.22)','stroke-width':e.kind==='spoke'?1.6:1.2});
-    gLink.append(e.line);
-  });
+  function build(){
+    const cfg=cfgFor();
+    const m=cfg.stack?'m':'d';
+    if(m===mode) return;            // only rebuild when crossing the breakpoint
+    mode=m;
+    if(raf){cancelAnimationFrame(raf);raf=null;}
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute('viewBox','0 0 '+cfg.vbW+' '+cfg.vbH);
 
-  // halos
-  const hubHalo=el('circle',{cx:cx,cy:cy,r:hubR+12,class:'eco-halo',opacity:.26}); gHalo.append(hubHalo);
-  outer.forEach(n=>{ n.halo=el('circle',{cx:n.x,cy:n.y,r:nodeR+9,class:'eco-halo',opacity:.08}); gHalo.append(n.halo); });
+    const {cx,cy,R,hubR,nodeR}=cfg;
+    const hub={x:cx,y:cy,r:hubR,edges:[]};
+    const outer=DATA.map(d=>({...d}));
+    outer.forEach(n=>{const t=n.a*Math.PI/180; n.x=cx+R*Math.sin(t); n.y=cy-R*Math.cos(t); n.r=nodeR; n.edges=[];});
 
-  // a travelling pulse on every edge, directions and timings staggered
-  edges.forEach((e,i)=>{
-    e.pulse=el('circle',{r:e.kind==='spoke'?4.4:3.6,class:'eco-pulse',opacity:0}); gPulse.append(e.pulse);
-    e.dur=3600+(i*331%2400); e.phase=(i*0.1657)%1; e.rev=(i%2===0);
-  });
+    const gLink=el('g',{}), gHalo=el('g',{}), gPulse=el('g',{}), gNode=el('g',{}), gLabel=el('g',{});
+    svg.append(gLink,gHalo,gPulse,gNode,gLabel);
 
-  // nodes + labels + hover
-  outer.forEach(n=>{
-    n.circle=el('circle',{cx:n.x,cy:n.y,r:nodeR,class:'eco-node'}); gNode.append(n.circle);
-    const out = n.a===0 ? {dx:0,dy:-(nodeR+18),anc:'middle'}
-              : n.a===180 ? {dx:0,dy:(nodeR+28),anc:'middle'}
-              : (n.x>cx ? {dx:(nodeR+12),dy:4,anc:'start'} : {dx:-(nodeR+12),dy:4,anc:'end'});
-    n.lblMain=el('text',{x:n.x+out.dx,y:n.y+out.dy,class:'eco-label','text-anchor':out.anc}); n.lblMain.textContent=n.label;
-    n.lblSub=el('text',{x:n.x+out.dx,y:n.y+out.dy+15,class:'eco-sub','text-anchor':out.anc}); n.lblSub.textContent=n.sub;
-    gLabel.append(n.lblMain,n.lblSub);
-    const hot=()=>{ cap.textContent=n.desc; n.circle.classList.add('hot'); n.lblMain.classList.add('hot'); n.edges.forEach(e=>e.line.style.stroke='rgba(0,185,255,.6)'); };
-    const cool=()=>{ cap.innerHTML=capHTML; n.circle.classList.remove('hot'); n.lblMain.classList.remove('hot'); n.edges.forEach(e=>e.line.style.stroke=''); };
-    [n.circle,n.lblMain].forEach(t=>{ t.addEventListener('mouseenter',hot); t.addEventListener('mouseleave',cool); t.addEventListener('click',hot); });
-  });
+    // edges: every node wired to the founder AND to one another (ring + cross-links)
+    const edges=[];
+    function addEdge(a,b,kind){
+      const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy);
+      const e={a,b,kind,dx,dy,fA:a.r/len,fB:1-b.r/len}; edges.push(e); a.edges.push(e); b.edges.push(e); return e;
+    }
+    outer.forEach((n,i)=>{ addEdge(hub,n,'spoke'); addEdge(n,outer[(i+1)%6],'ring'); addEdge(n,outer[(i+2)%6],'chord'); });
 
-  // founder hub (primary beneficiary, still part of the mesh)
-  gNode.append(el('circle',{cx:cx,cy:cy,r:hubR,class:'eco-hub'}));
-  const hl1=el('text',{x:cx,y:cy-4,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='Healthtech'; gLabel.append(hl1);
-  const hl2=el('text',{x:cx,y:cy+13,class:'eco-hublabel','text-anchor':'middle'}); hl2.textContent='Founder'; gLabel.append(hl2);
-
-  let raf;
-  function frame(now){
+    // links
     edges.forEach(e=>{
-      const u=((now/e.dur+e.phase)%1), uu=e.rev?1-u:u, f=e.fA+uu*(e.fB-e.fA);
-      e.pulse.setAttribute('cx',(e.a.x+e.dx*f).toFixed(1));
-      e.pulse.setAttribute('cy',(e.a.y+e.dy*f).toFixed(1));
-      e.pulse.setAttribute('opacity',(0.8*Math.sin(u*Math.PI)).toFixed(3));
+      e.line=el('line',{x1:e.a.x,y1:e.a.y,x2:e.b.x,y2:e.b.y,class:'eco-link',
+        stroke:e.kind==='chord'?'rgba(0,185,255,.12)':'rgba(0,185,255,.22)','stroke-width':e.kind==='spoke'?1.6:1.2});
+      gLink.append(e.line);
     });
-    const t=now/1000;
-    outer.forEach((n,i)=>{ n.halo.setAttribute('opacity',(0.07+0.13*(0.5+0.5*Math.sin(t*0.7+i*1.1))).toFixed(3)); });
-    hubHalo.setAttribute('opacity',(0.2+0.15*(0.5+0.5*Math.sin(t*0.6))).toFixed(3));
-    raf=requestAnimationFrame(frame);
+
+    // halos
+    const hubHalo=el('circle',{cx:cx,cy:cy,r:hubR+12,class:'eco-halo',opacity:.26}); gHalo.append(hubHalo);
+    outer.forEach(n=>{ n.halo=el('circle',{cx:n.x,cy:n.y,r:nodeR+9,class:'eco-halo',opacity:.08}); gHalo.append(n.halo); });
+
+    // a travelling pulse on every edge, directions and timings staggered
+    edges.forEach((e,i)=>{
+      e.pulse=el('circle',{r:e.kind==='spoke'?4.4:3.6,class:'eco-pulse',opacity:0}); gPulse.append(e.pulse);
+      e.dur=3600+(i*331%2400); e.phase=(i*0.1657)%1; e.rev=(i%2===0);
+    });
+
+    // nodes + labels + hover
+    outer.forEach(n=>{
+      n.circle=el('circle',{cx:n.x,cy:n.y,r:nodeR,class:'eco-node'}); gNode.append(n.circle);
+      let lx,ly,anc;
+      if(cfg.stack){
+        // stack the label centered, above upper nodes / below lower nodes
+        const up=n.y<cy-1;
+        anc='middle'; lx=n.x; ly=up ? n.y-nodeR-26 : n.y+nodeR+20;
+      } else {
+        const out = n.a===0 ? {dx:0,dy:-(nodeR+18),anc:'middle'}
+                  : n.a===180 ? {dx:0,dy:(nodeR+28),anc:'middle'}
+                  : (n.x>cx ? {dx:(nodeR+12),dy:4,anc:'start'} : {dx:-(nodeR+12),dy:4,anc:'end'});
+        lx=n.x+out.dx; ly=n.y+out.dy; anc=out.anc;
+      }
+      n.lblMain=el('text',{x:lx,y:ly,class:'eco-label','text-anchor':anc}); n.lblMain.textContent=n.label;
+      n.lblSub=el('text',{x:lx,y:ly+15,class:'eco-sub','text-anchor':anc}); n.lblSub.textContent=n.sub;
+      gLabel.append(n.lblMain,n.lblSub);
+      const hot=()=>{ cap.textContent=n.desc; n.circle.classList.add('hot'); n.lblMain.classList.add('hot'); n.edges.forEach(e=>e.line.style.stroke='rgba(0,185,255,.6)'); };
+      const cool=()=>{ cap.innerHTML=capHTML; n.circle.classList.remove('hot'); n.lblMain.classList.remove('hot'); n.edges.forEach(e=>e.line.style.stroke=''); };
+      [n.circle,n.lblMain].forEach(t=>{ t.addEventListener('mouseenter',hot); t.addEventListener('mouseleave',cool); t.addEventListener('click',hot); });
+    });
+
+    // founder hub (primary beneficiary, still part of the mesh)
+    gNode.append(el('circle',{cx:cx,cy:cy,r:hubR,class:'eco-hub'}));
+    const hl1=el('text',{x:cx,y:cy-4,class:'eco-hublabel','text-anchor':'middle'}); hl1.textContent='Healthtech'; gLabel.append(hl1);
+    const hl2=el('text',{x:cx,y:cy+13,class:'eco-hublabel','text-anchor':'middle'}); hl2.textContent='Founder'; gLabel.append(hl2);
+
+    function frame(now){
+      edges.forEach(e=>{
+        const u=((now/e.dur+e.phase)%1), uu=e.rev?1-u:u, f=e.fA+uu*(e.fB-e.fA);
+        e.pulse.setAttribute('cx',(e.a.x+e.dx*f).toFixed(1));
+        e.pulse.setAttribute('cy',(e.a.y+e.dy*f).toFixed(1));
+        e.pulse.setAttribute('opacity',(0.8*Math.sin(u*Math.PI)).toFixed(3));
+      });
+      const t=now/1000;
+      outer.forEach((n,i)=>{ n.halo.setAttribute('opacity',(0.07+0.13*(0.5+0.5*Math.sin(t*0.7+i*1.1))).toFixed(3)); });
+      hubHalo.setAttribute('opacity',(0.2+0.15*(0.5+0.5*Math.sin(t*0.6))).toFixed(3));
+      raf=requestAnimationFrame(frame);
+    }
+    if(!reduce) raf=requestAnimationFrame(frame);
   }
-  if(!reduce) raf=requestAnimationFrame(frame);
+
+  build();
+  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(build,200); });
 })();
 </script>
 </body>

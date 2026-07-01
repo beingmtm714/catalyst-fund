@@ -227,6 +227,30 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
   animation:dash 2.4s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-20}}
 
+/* ---------- evergreen recycling loop ---------- */
+.evgwrap{margin-top:42px;display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,4vw,60px);align-items:center}
+@media(max-width:900px){.evgwrap{grid-template-columns:1fr;gap:34px}}
+.loopfig{margin:0;position:relative}
+.loop-svg{width:100%;height:auto;display:block;max-width:460px;margin:0 auto;overflow:visible}
+.loop-ring{fill:none;stroke:rgba(0,185,255,.30);stroke-width:2;stroke-dasharray:5 9;stroke-linecap:round;
+  animation:loopdash 3.2s linear infinite}
+@keyframes loopdash{to{stroke-dashoffset:-56}}
+.loop-orbit{transform-origin:220px 220px;animation:loopspin 9s linear infinite}
+@keyframes loopspin{to{transform:rotate(360deg)}}
+.loop-orbit .flow{fill:var(--blue);filter:drop-shadow(0 0 6px var(--blue))}
+.loop-node{fill:rgba(8,28,46,.94);stroke:var(--blue);stroke-width:1.6;transition:stroke-width .2s}
+.loop-node:hover{stroke-width:2.6}
+.loop-halo{fill:var(--blue);opacity:.09}
+.loop-hub{fill:rgba(0,185,255,.1);stroke:var(--blue);stroke-width:2}
+.loop-lab{fill:var(--white);font-size:13px;font-weight:700;text-anchor:middle}
+.loop-sub{fill:var(--gray2);font-size:10.5px;font-weight:500;text-anchor:middle}
+.loop-hublab{fill:var(--blue);font-size:14.5px;font-weight:800;text-anchor:middle;letter-spacing:.02em}
+.loop-hubsub{fill:var(--gray2);font-size:10.5px;text-anchor:middle}
+.loop-cap{text-align:center;color:var(--gray2);font-size:.82rem;line-height:1.5;margin:16px auto 0;max-width:46ch}
+.loop-cap b{color:var(--white);font-weight:600}
+@media(prefers-reduced-motion:reduce){.loop-ring,.loop-orbit{animation:none}}
+@media(max-width:600px){.loop-lab{font-size:15px}.loop-sub{font-size:12px}.loop-hublab{font-size:16.5px}.loop-hubsub{font-size:12px}}
+
 /* ---------- two-statement headline treatment ---------- */
 .lead-h .l2,.hero h1 .l2,.close h2 .l2{display:block;color:var(--blue)}
 
@@ -460,6 +484,8 @@ section{padding:clamp(64px,11vh,120px) 0;border-top:1px solid var(--line)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:36px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.stats{grid-template-columns:1fr}}
+.stats.s3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:640px){.stats.s3{grid-template-columns:1fr}}
 .stat{background:rgba(10,34,54,.55);padding:28px 24px;position:relative;transition:.3s}
 .stat:hover{background:rgba(10,34,54,.8)}
 .stat::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--blue),transparent)}
@@ -547,6 +573,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
 <nav class="toc" aria-label="On this page">
   <a href="#overview"><span class="tlabel">Overview</span><span class="ttick"></span></a>
   <a href="#approach"><span class="tlabel">How I'd step in</span><span class="ttick"></span></a>
+  <a href="#evergreen"><span class="tlabel">Evergreen</span><span class="ttick"></span></a>
   <a href="#build"><span class="tlabel">Operating model</span><span class="ttick"></span></a>
   <a href="#architecture"><span class="tlabel">Architecture</span><span class="ttick"></span></a>
   <a href="#needs"><span class="tlabel">Needs assessment</span><span class="ttick"></span></a>
@@ -554,6 +581,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <a href="#capital"><span class="tlabel">The offer to founders</span><span class="ttick"></span></a>
   <a href="#messaging"><span class="tlabel">How the money works</span><span class="ttick"></span></a>
   <a href="#plan"><span class="tlabel">Playbook</span><span class="ttick"></span></a>
+  <a href="#proof"><span class="tlabel">Proof</span><span class="ttick"></span></a>
 </nav>
 
 <!-- mobile table of contents -->
@@ -568,6 +596,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <div class="mtoc-head">Jump to section</div>
   <a href="#overview">Overview</a>
   <a href="#approach">How I'd step in</a>
+  <a href="#evergreen">Evergreen</a>
   <a href="#build">Operating model</a>
   <a href="#architecture">Architecture</a>
   <a href="#needs">Needs assessment</a>
@@ -575,6 +604,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <a href="#capital">The offer to founders</a>
   <a href="#messaging">How the money works</a>
   <a href="#plan">Playbook</a>
+  <a href="#proof">Proof</a>
 </nav>
 
 <button class="totop" aria-label="Back to top" title="Back to top">
@@ -588,8 +618,8 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <div class="wrap">
     <p class="eyebrow r in">Draft operating model · Developed by Michael Martin</p>
     <h1 class="r in d1">Transform rural health<span class="l2">Anchor Louisiana's economy</span></h1>
-    <p class="drafnote r in d1">A vision I've developed, and a starting point for the conversation. <b>Open to discussion, amendments, and rethinking as necessary.</b></p>
-    <p class="lede r in d2"><b>$100 million in federal money over five years</b>, aimed at the health of Louisiana's 1.1 million rural residents. The grant ends in five years. The companies it backs, the infrastructure it builds, and the innovation economy it seeds should not.</p>
+    <p class="drafnote r in d1">A vision I've developed, and a starting point for the conversation. <b>Open to discussion and revision.</b></p>
+    <p class="lede r in d2"><b>$100 million in federal money over five years</b>, aimed at the health of Louisiana's 1.1 million rural residents. The grant ends in five years. The companies it backs and the innovation economy it seeds should not. <b>Built to return capital, not just spend it.</b></p>
     <div class="btnrow r in d3">
       <a class="btn solid" href="#approach">How I'd operate it →</a>
       <a class="btn ghost" href="#overview">The fund in brief</a>
@@ -602,13 +632,13 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   <div class="wrap">
     <p class="eyebrow r">The fund in brief</p>
     <h2 class="lead-h r d1">A finite grant, built to outlast itself</h2>
-    <p class="lead-p r d2">Federal money aimed at the health of Louisiana's 1.1 million rural residents. Spent well, it builds companies and infrastructure that outlast the grant.</p>
+    <p class="lead-p r d2">Federal money aimed at the health of Louisiana's 1.1 million rural residents. Spent well, it builds companies and infrastructure that outlast the grant, and recycles its returns to seed new ventures beyond it.</p>
 
     <div class="stats r d2">
       <div class="stat"><div class="big">$100M</div><div class="lab"><b>Federal capital</b> over five years, $20M a year.</div></div>
       <div class="stat"><div class="big">1.1M</div><div class="lab"><b>Rural Louisianans</b> it serves, plus their providers.</div></div>
       <div class="stat"><div class="big">Sep 30 ’26</div><div class="lab">First tranche <b>obligated</b> by this deadline.</div></div>
-      <div class="stat"><div class="big">5 yrs</div><div class="lab">Then the grant ends. <b>The companies don't.</b></div></div>
+      <div class="stat"><div class="big">4x target</div><div class="lab"><b>Private capital</b> catalyzed alongside the fund.</div></div>
     </div>
 
     <div class="prov r d3">
@@ -621,13 +651,15 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
       <span class="chip">Run by <b>Louisiana Innovation (LA.IO)</b>, a division of LED</span>
     </div>
 
-    <div class="subhead r d3">Pointed at three outcomes</div>
+    <h2 class="lead-h r d3" style="margin-top:52px">Two mandates, held together</h2>
+    <p class="lead-p r d3">Every company the fund backs has to move on two fronts: <b>better care for rural Louisiana</b>, and <b>a business that can return capital</b>. Those goals pull together more than people expect. A startup that solves a real rural problem usually has paying customers, and paying customers mean growing startups that drive returns into the evergreen fund.</p>
+
+    <div class="subhead r d3">Which points at three outcomes</div>
     <div class="north r d3" style="margin-top:0">
       <div class="ns"><div class="n">Outcome 01</div><h3>Healthier rural Louisiana</h3><p>Real care gains for the residents with the least access.</p></div>
       <div class="ns"><div class="n">Outcome 02</div><h3>Revenue and tax base</h3><p>Companies operating, hiring, and earning in-state.</p></div>
       <div class="ns"><div class="n">Outcome 03</div><h3>An innovation brand</h3><p>Proof Louisiana backs rural-health startups that win.</p></div>
     </div>
-    <p class="lead-p r d3" style="margin-top:24px">Every choice that follows backs into these three.</p>
   </div>
 </section>
 
@@ -654,7 +686,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
       <div class="tile">
         <div class="k">03 · Healthcare depth</div>
         <h4>Where does health expertise come from?</h4>
-        <p>LA.IO is an econ-dev shop, not a health system. Plug deep expertise in per problem area, off payroll.</p>
+        <p>LA.IO is an econ-dev shop, not a health system. Plug deep expertise in per problem area, off payroll, and run it through the Investment Committee's diligence.</p>
       </div>
       <div class="tile">
         <div class="k">04 · Beyond the check</div>
@@ -665,12 +697,80 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   </div>
 </section>
 
+<!-- ===================== THE ARCHITECTURE: AN EVERGREEN FUND ===================== -->
+<section id="evergreen">
+  <div class="wrap">
+    <p class="eyebrow r">Core architecture · Evergreen</p>
+    <h2 class="lead-h r d1">Build it to last</h2>
+    <p class="lead-p r d2">The grant spends down over five years. The bigger opportunity, if the rules allow, is to make it <b>evergreen</b>: returns recycle into new investment instead of ending with the grant. That keeps a pool working to fund the next companies, and could seed a venture studio.</p>
+
+    <div class="evgwrap">
+      <figure class="loopfig r d2">
+        <svg class="loop-svg" viewBox="0 0 440 440" role="img" aria-label="The recycling loop: capital in, awards out to founders, returns via liquidity mechanisms, a recycled pool, then new ventures and a venture studio, cycling back to capital in.">
+          <!-- ring -->
+          <circle class="loop-ring" cx="220" cy="220" r="150"/>
+          <!-- node halos -->
+          <circle class="loop-halo" cx="220" cy="70"  r="50"/>
+          <circle class="loop-halo" cx="363" cy="174" r="50"/>
+          <circle class="loop-halo" cx="308" cy="341" r="50"/>
+          <circle class="loop-halo" cx="132" cy="341" r="50"/>
+          <circle class="loop-halo" cx="77"  cy="174" r="50"/>
+          <!-- travelling pulse (clockwise) -->
+          <g class="loop-orbit"><circle class="flow" cx="220" cy="70" r="6"/></g>
+          <!-- stage nodes -->
+          <g>
+            <circle class="loop-node" cx="220" cy="70"  r="42"/>
+            <text class="loop-lab" x="220" y="67">Capital in</text>
+            <text class="loop-sub" x="220" y="83">$20M a year</text>
+          </g>
+          <g>
+            <circle class="loop-node" cx="363" cy="174" r="42"/>
+            <text class="loop-lab" x="363" y="171">Awards out</text>
+            <text class="loop-sub" x="363" y="187">to founders</text>
+          </g>
+          <g>
+            <circle class="loop-node" cx="308" cy="341" r="42"/>
+            <text class="loop-lab" x="308" y="338">Returns</text>
+            <text class="loop-sub" x="308" y="354">via liquidity</text>
+          </g>
+          <g>
+            <circle class="loop-node" cx="132" cy="341" r="42"/>
+            <text class="loop-lab" x="132" y="338">Recycled</text>
+            <text class="loop-sub" x="132" y="354">pool</text>
+          </g>
+          <g>
+            <circle class="loop-node" cx="77"  cy="174" r="42"/>
+            <text class="loop-lab" x="77" y="171">New</text>
+            <text class="loop-sub" x="77" y="187">ventures + studio</text>
+          </g>
+          <!-- hub -->
+          <circle class="loop-hub" cx="220" cy="220" r="54"/>
+          <text class="loop-hublab" x="220" y="216">Evergreen</text>
+          <text class="loop-hubsub" x="220" y="234">returns recycle</text>
+        </svg>
+        <figcaption class="loop-cap">Capital in, awards out, returns via the liquidity mechanisms, a <b>recycled pool</b>, then new ventures and a venture studio — cycling back.</figcaption>
+      </figure>
+
+      <div>
+        <div class="note r d2">
+          <div class="lbl">Liquidity by design</div>
+          <p>Venture returns are slow, so the fund engineers liquidity in rather than waiting for exits: <b>redeemable and revenue-linked terms, selling into up-rounds, continuation secondaries, and company-sponsored tenders.</b> Faster liquidity is what lets recycling begin.</p>
+        </div>
+        <div class="openq r d3" style="margin-top:18px">
+          <div class="lbl">Not in the program today</div>
+          <p>It's the design choice worth proposing to <b>LED and CMS</b> — subject to Louisiana's award terms and CMS confirmation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== THE OPERATING MODEL ===================== -->
 <section id="build">
   <div class="wrap">
     <p class="eyebrow r">The operating model</p>
     <h2 class="lead-h r d1">Six moves, one durable system</h2>
-    <p class="lead-p r d2">Each answers a question above and ladders back to the three outcomes. A playbook I've run before, not an experiment.</p>
+    <p class="lead-p r d2">Each answers a question above and executes the evergreen architecture. A playbook I've run before, not an experiment.</p>
 
     <div class="moves r d2">
       <a class="move" href="#architecture"><span class="go">→</span><div class="mn">01</div><h4>Program architecture</h4><p>An engine, expertise on demand.</p></a>
@@ -691,28 +791,27 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
     <h2 class="lead-h r d1">Build the engine<span class="l2">It outlasts the grant</span></h2>
     <p class="lead-p r d2">The RTCF is time-limited, but its impact should not be. Companies that drive health outcomes, powered by a durable selection &amp; support engine, are the alluvium for the future of impactful innovation in Louisiana.</p>
     <p class="lead-p r d2">That engine convenes healthtech expertise, catalyzes a statewide needs assessment, identifies the core problem areas within rural health, and scopes a new rubric &amp; success metrics for every RTCF cohort.</p>
-    <p class="lead-p r d3">The advisory board is core to the architecture and it informs the fundamental data that an investment strategy requires. National healthtech VCs, the largest providers and payers, qualified patient advocates, and Louisiana's VCs and ecosystem: they bring judgment an economic-development shop can't hold on its own and signal to founders the type of value they'll receive when they sign a term sheet.</p>
+    <p class="lead-p r d3">The advisory board splits in two. An <span class="kicker">Investment Committee</span> of investors and national healthtech VCs pressure-tests deals and weights decisions toward returns, so recycled dollars back companies that can pay them back. A <span class="kicker">Domain and Needs group</span> of clinical, payer, and provider experts sets the problem and validates real demand. Together they bring judgment an economic-development shop can't hold on its own, and signal to founders the value they'll receive when they sign a term sheet.</p>
     <p class="lead-p r d3"><span class="kicker">Beyond the fund.</span> The same engine runs a venture studio, where the work is mostly sourcing the right founders, who join as Entrepreneurs in Residence. The rubric and metrics shape what it catalyzes, without binding it the way federal dollars bind the fund.</p>
 
     <div class="sysmap r d2">
       <div class="plug-head">The engine · built once, run every cohort</div>
       <div class="pillars">
         <div class="pillar">
-          <div class="ph">The advisory board</div>
+          <div class="ph">Investment Committee</div>
           <ul class="plist">
-            <li>National healthtech VCs <span>dealflow and diligence</span></li>
-            <li>Largest providers &amp; payers <span>demand and pilot access</span></li>
-            <li>Patient advocates &amp; patients <span>the need, firsthand</span></li>
-            <li>Louisiana VCs &amp; ecosystem <span>Ochsner Ventures, Idea Village</span></li>
+            <li>Investors &amp; national healthtech VCs <span>pressure-test every deal</span></li>
+            <li>Weighted toward returns <span>so recycled dollars come back</span></li>
+            <li>Diligence bench on demand <span>expertise per problem area, off payroll</span></li>
           </ul>
         </div>
         <div class="pillar">
-          <div class="ph">What it scopes each cohort</div>
+          <div class="ph">Domain &amp; Needs group</div>
           <ul class="plist">
-            <li>Statewide needs assessment <span>real demand, in its own words</span></li>
-            <li>Core problem areas <span>named and ranked in rural health</span></li>
-            <li>Scoring rubric <span>set fresh per cohort</span></li>
-            <li>Success metrics <span>the bar, per problem area</span></li>
+            <li>Providers, payers &amp; clinicians <span>demand and pilot access</span></li>
+            <li>Patient advocates &amp; patients <span>the need, firsthand</span></li>
+            <li>Sets the problem, validates demand <span>needs assessment, ranked problem areas</span></li>
+            <li>Scores each cohort <span>rubric and success metrics</span></li>
           </ul>
         </div>
       </div>
@@ -887,6 +986,25 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
       </div>
     </div>
 
+    <div class="subhead r d3">And how the capital compounds</div>
+    <div class="three r d3" style="margin-top:0">
+      <div class="tile">
+        <div class="k">Leverage</div>
+        <h4>Every dollar pulls in more</h4>
+        <p>The fund co-invests alongside private capital, aiming to catalyze several dollars of outside investment for every dollar it puts in.</p>
+      </div>
+      <div class="tile">
+        <div class="k">Follow-on reserve</div>
+        <h4>Double down on winners</h4>
+        <p>The fund holds capital back to back its strongest companies in their next rounds.</p>
+      </div>
+      <div class="tile">
+        <div class="k">Investment Returns</div>
+        <h4>Wins come back to the fund</h4>
+        <p>Through its equity position. They either return to the grantor or, if the rules allow, recycle into new investment — the <b>evergreen architecture</b> above.</p>
+      </div>
+    </div>
+
     <p class="lead-p r d3" style="margin-top:26px">The fund never leads. A quasi-public agency setting the price is a negative signal.</p>
   </div>
 </section>
@@ -943,13 +1061,31 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--gray2);font-s
   </div>
 </section>
 
+<!-- ===================== PROOF: CONNECTICUT INNOVATIONS ===================== -->
+<section id="proof">
+  <div class="wrap">
+    <p class="eyebrow r">Proof · Connecticut Innovations</p>
+    <h2 class="lead-h r d1">This model already works</h2>
+    <p class="lead-p r d2">Connecticut Innovations runs federal capital as a state-contracted entity — the structure proposed here. Over time it became evergreen and self-sustaining, recycling returns into the next companies.</p>
+
+    <div class="stats s3 r d2">
+      <div class="stat"><div class="big">~$250M</div><div class="lab"><b>Net position</b> built over time.</div></div>
+      <div class="stat"><div class="big">~$40M</div><div class="lab"><b>Deployed</b> each year.</div></div>
+      <div class="stat"><div class="big">~14x</div><div class="lab"><b>Private capital</b> catalyzed alongside it.</div></div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== CLOSE ===================== -->
 <section id="close" class="close">
   <div class="wrap">
     <p class="eyebrow r" style="justify-content:center">Better rural health, built to last</p>
     <h2 class="r d1">From plan to <span class="fl">operating fund</span></h2>
-    <p class="r d2">Durable infrastructure, expertise on demand, and a pipeline sourced on purpose, pointed at better health for rural Louisiana. The partners are in place. What's left is collaborating on the best way to refine and stand it up.</p>
-    <a class="btn solid r d3" href="resume/">See the track record →</a>
+    <p class="r d2">This is a draft I built to start the conversation, not a finished mandate. The structure is deliberate: an evergreen architecture, returns-focused diligence, real demand, an unfair pilot advantage, and capital that recycles. Built to outlast the grant.</p>
+    <div class="btnrow r d3" style="justify-content:center">
+      <a class="btn solid" href="resume/">See the track record →</a>
+      <a class="btn ghost" href="mailto:being.michael.martin@gmail.com">Let's talk →</a>
+    </div>
     <div class="sign r d3">
       <span class="name">Michael Martin</span>
       <span class="role">Prepared for LA.IO</span>
